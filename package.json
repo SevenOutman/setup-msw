@@ -1,12 +1,17 @@
 {
-  "name": "my-ts-lib",
+  "name": "setup-msw",
   "version": "0.0.0",
-  "description": "My awesome typescript library",
+  "description": "CLI tool for setting up (MSW) for your project",
   "publishConfig": {
     "access": "public"
   },
   "files": [
     "dist"
+  ],
+  "keywords": [
+    "msw",
+    "scaffold",
+    "quickstart"
   ],
   "type": "module",
   "bin": "./dist/index.mjs",
