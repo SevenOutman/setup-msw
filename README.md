@@ -4,7 +4,7 @@
 
 CLI tool that sets up [Mock Service Worker (MSW)](https://mswjs.io/) for your project.
 
-![Demo](./demo.gif)
+![Screencast](./screencast.svg)
 
 ## Features
 
