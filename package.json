@@ -14,7 +14,9 @@
     "quickstart"
   ],
   "type": "module",
-  "bin": "./dist/index.mjs",
+  "bin": {
+    "setup-msw": "./dist/index.mjs"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "exports": {
