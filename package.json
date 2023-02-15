@@ -14,14 +14,12 @@
     "quickstart"
   ],
   "type": "module",
-  "bin": {
-    "setup-msw": "./dist/index.mjs"
-  },
+  "bin": "./dist/index.js",
   "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.js",
   "exports": {
-    "require": "./dist/index.js",
-    "import": "./dist/index.mjs"
+    "require": "./dist/index.cjs",
+    "import": "./dist/index.js"
   },
   "types": "./dist/index.d.ts",
   "scripts": {
