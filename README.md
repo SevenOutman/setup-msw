@@ -4,6 +4,13 @@
 
 CLI tool that sets up [Mock Service Worker (MSW)](https://mswjs.io/) for your project.
 
+![Demo](./demo.gif)
+
+## Features
+
+This package basically does https://mswjs.io/docs/getting-started for you and that's all.
+It fits you better when you are adding msw to more projects.
+
 ## Usage
 
 ```bash
