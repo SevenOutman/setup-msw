@@ -1,11 +1,10 @@
-// src/mocks/handlers.js
-import { graphql } from 'msw'
+import { graphql } from "msw"
 
 export const handlers = [
   // Handles a "Login" mutation
-  graphql.mutation('Login', (req, res, ctx) => {
+  graphql.mutation("Login", (req, res, ctx) => {
     const { username } = req.variables
-    sessionStorage.setItem('is-authenticated', username)
+    sessionStorage.setItem("is-authenticated", username)
 
     return res(
       ctx.data({
@@ -17,16 +16,16 @@ export const handlers = [
   }),
 
   // Handles a "GetUserInfo" query
-  graphql.query('GetUserInfo', (req, res, ctx) => {
-    const authenticatedUser = sessionStorage.getItem('is-authenticated')
+  graphql.query("GetUserInfo", (req, res, ctx) => {
+    const authenticatedUser = sessionStorage.getItem("is-authenticated")
 
     if (!authenticatedUser) {
       // When not authenticated, respond with an error
       return res(
         ctx.errors([
           {
-            message: 'Not authenticated',
-            errorType: 'AuthenticationError',
+            message: "Not authenticated",
+            errorType: "AuthenticationError",
           },
         ]),
       )
@@ -37,7 +36,7 @@ export const handlers = [
       ctx.data({
         user: {
           username: authenticatedUser,
-          firstName: 'John',
+          firstName: "John",
         },
       }),
     )

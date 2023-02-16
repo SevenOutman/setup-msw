@@ -1,7 +1,8 @@
 {
   "name": "my-package",
   "devDependencies": {
-    "msw": "^1.0.1"
+    "msw": "^1.0.1",
+    "typescript": "^4.9.5"
   },
   "msw": {
     "workerDirectory": "public"
