@@ -1,7 +1,7 @@
 import path from "node:path"
 import { execa } from "execa"
 import pc from "picocolors"
-import { copyTemplate, runAsyncWithSpinner } from "./utils"
+import { copyTemplate, isTsProject, runAsyncWithSpinner } from "./utils"
 
 type SetupMSWOptions =
   | {
@@ -23,13 +23,14 @@ export async function setupMSW(options: SetupMSWOptions) {
   })
 
   // Create mocks/handlers.js
+  const generatedFileExtension = (await isTsProject()) ? ".ts" : ".js"
 
   await runAsyncWithSpinner(
-    `Generating ${pc.green(`mocks/handlers.js`)}...`,
+    `Generating ${pc.green(`mocks/handlers.${generatedFileExtension}`)}...`,
     async () => {
       await copyTemplate(
         options.apiType + "-handlers.js",
-        path.join(mocksDirectoryPath, "handlers.js"),
+        path.join(mocksDirectoryPath, "handlers" + generatedFileExtension),
       )
     },
   )
@@ -47,16 +48,21 @@ export async function setupMSW(options: SetupMSWOptions) {
   // Cerate mocks/browser.js or mocks/server.js
 
   const integrationFileName = {
-    browser: "browser.js",
-    nodejs: "server.js",
+    browser: "browser",
+    nodejs: "server",
   }[options.integrationType]
 
   await runAsyncWithSpinner(
-    `Generating ${pc.green("mocks/" + integrationFileName)}...`,
+    `Generating ${pc.green(
+      "mocks/" + integrationFileName + generatedFileExtension,
+    )}...`,
     async () => {
       await copyTemplate(
-        integrationFileName,
-        path.join(mocksDirectoryPath, integrationFileName),
+        integrationFileName + ".js",
+        path.join(
+          mocksDirectoryPath,
+          integrationFileName + generatedFileExtension,
+        ),
       )
     },
   )

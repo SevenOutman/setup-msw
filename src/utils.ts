@@ -1,7 +1,8 @@
+import process from "node:process"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { spinner } from "@clack/prompts"
-import { copy } from "fs-extra"
+import { copy, exists } from "fs-extra"
 
 // @see https://stackoverflow.com/a/72462507
 const __filename = fileURLToPath(import.meta.url)
@@ -24,4 +25,8 @@ export async function copyTemplate(
   destination: string,
 ) {
   await copy(path.join(templateDirectoryPath, templateFileName), destination)
+}
+
+export async function isTsProject() {
+  return await exists(path.join(process.cwd(), "tsconfig.json"))
 }
