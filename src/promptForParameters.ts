@@ -1,4 +1,5 @@
 import { isCancel, select, text } from "@clack/prompts"
+import { guessPublicDirectory } from "./utils"
 
 export async function promptForParameters() {
   const apiType = await select({
@@ -46,7 +47,7 @@ export async function promptForParameters() {
 
   const publicDirectory = await text({
     message: "Your public directory",
-    placeholder: "./public",
+    placeholder: await guessPublicDirectory(),
   })
 
   if (isCancel(publicDirectory)) {
