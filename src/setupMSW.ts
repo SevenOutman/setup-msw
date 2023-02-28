@@ -1,7 +1,7 @@
 import path from "node:path"
 import { execa } from "execa"
 import pc from "picocolors"
-import { copyTemplate, runAsyncWithSpinner } from "./utils"
+import { copyTemplate, isTsProject, runAsyncWithSpinner } from "./utils"
 
 type SetupMSWOptions =
   | {
@@ -23,13 +23,14 @@ export async function setupMSW(options: SetupMSWOptions) {
   })
 
   // Create mocks/handlers.js
+  const generatedFileExtension = (await isTsProject()) ? ".ts" : ".js"
 
   await runAsyncWithSpinner(
-    `Generating ${pc.green(`mocks/handlers.js`)}...`,
+    `Generating ${pc.green("mocks/handlers" + generatedFileExtension)}...`,
     async () => {
       await copyTemplate(
         options.apiType + "-handlers.js",
-        path.join(mocksDirectoryPath, "handlers.js"),
+        path.join(mocksDirectoryPath, "handlers" + generatedFileExtension),
       )
     },
   )
@@ -51,11 +52,11 @@ export async function setupMSW(options: SetupMSWOptions) {
 
   if (options.integrationType === "browser") {
     await runAsyncWithSpinner(
-      `Generating ${pc.green("mocks/browser.js")}...`,
+      `Generating ${pc.green("mocks/browser" + generatedFileExtension)}...`,
       async () => {
         await copyTemplate(
           "browser.js",
-          path.join(mocksDirectoryPath, "browser.js"),
+          path.join(mocksDirectoryPath, "browser" + generatedFileExtension),
         )
       },
     )
@@ -63,11 +64,11 @@ export async function setupMSW(options: SetupMSWOptions) {
 
   if (options.integrationType === "nodejs") {
     await runAsyncWithSpinner(
-      `Generating ${pc.green("mocks/server.js")}...`,
+      `Generating ${pc.green("mocks/server" + generatedFileExtension)}...`,
       async () => {
         await copyTemplate(
           "server.js",
-          path.join(mocksDirectoryPath, "server.js"),
+          path.join(mocksDirectoryPath, "server" + generatedFileExtension),
         )
       },
     )
@@ -75,16 +76,19 @@ export async function setupMSW(options: SetupMSWOptions) {
 
   if (options.integrationType === "both") {
     await runAsyncWithSpinner(
-      `Generating ${pc.green("mocks/browser.js")} and ${pc.green(
-        "mocks/server.js",
-      )}...`,
+      `Generating ${pc.green(
+        "mocks/browser" + generatedFileExtension,
+      )} and ${pc.green("mocks/server" + generatedFileExtension)}...`,
       async () => {
         await Promise.all([
           copyTemplate(
             "browser.js",
-            path.join(mocksDirectoryPath, "browser.js"),
+            path.join(mocksDirectoryPath, "browser" + generatedFileExtension),
           ),
-          copyTemplate("server.js", path.join(mocksDirectoryPath, "server.js")),
+          copyTemplate(
+            "server.js",
+            path.join(mocksDirectoryPath, "server" + generatedFileExtension),
+          ),
         ])
       },
     )

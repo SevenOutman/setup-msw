@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { intro, outro } from "@clack/prompts"
+import boxen from "boxen"
 import { emphasize } from "emphasize"
 import pc from "picocolors"
 import { setupMSW } from "./setupMSW"
@@ -10,7 +11,7 @@ const startWorkerScript = `if (process.env.NODE_ENV === 'development') {
        worker.start()
      }`
 
-const setupTestsScript = `import { server } from './mocks/server.js'
+const setupTestsScript = `import { server } from './mocks/server'
 
      beforeAll(() => server.listen())
      afterEach(() => server.resetHandlers())
@@ -31,7 +32,14 @@ promptForParameters().then(
     if (parameters.integrationType === "browser") {
       outro(`Now add the following script into your entry script then you're all set!
   
-     ${emphasize.highlight("javascript", startWorkerScript).value}`)
+     ${emphasize.highlight("javascript", startWorkerScript).value}
+     
+   You should see a successful activation message in your browser's console
+
+${boxen(pc.red("[MSW] Mocking enabled"), {
+  padding: 1,
+  margin: { left: 3, top: 0, right: 3, bottom: 0 },
+})}`)
     } else if (parameters.integrationType === "nodejs") {
       outro(`Now add the following script into your setting-up test script then you're all set!
     
@@ -43,7 +51,14 @@ promptForParameters().then(
 
    and add the following script into your setting-up test script then you're all set!
     
-     ${emphasize.highlight("javascript", setupTestsScript).value}`)
+     ${emphasize.highlight("javascript", setupTestsScript).value}
+     
+   You should see a successful activation message in your browser's console
+
+${boxen(pc.red("[MSW] Mocking enabled"), {
+  padding: 1,
+  margin: { left: 3, top: 0, right: 3, bottom: 0 },
+})}`)
     }
     console.log(`   Happy mocking!`)
     console.log()

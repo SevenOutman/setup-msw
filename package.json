@@ -43,6 +43,7 @@
   "dependencies": {
     "@clack/prompts": "^0.4.5",
     "@netlify/framework-info": "^9.8.3",
+    "boxen": "^7.0.1",
     "emphasize": "^6.0.0",
     "execa": "^7.0.0",
     "fs-extra": "^11.1.0",

@@ -1,7 +1,7 @@
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { spinner } from "@clack/prompts"
-import { copy } from "fs-extra"
+import { copy, exists } from "fs-extra"
 import { listFrameworks } from "@netlify/framework-info"
 
 type FrameworkId = Awaited<ReturnType<typeof listFrameworks>>[0]["name"]
@@ -27,6 +27,10 @@ export async function copyTemplate(
   destination: string,
 ) {
   await copy(path.join(templateDirectoryPath, templateFileName), destination)
+}
+
+export async function isTsProject() {
+  return await exists(path.join(process.cwd(), "tsconfig.json"))
 }
 
 /**
