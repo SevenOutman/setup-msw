@@ -2,7 +2,9 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { spinner } from "@clack/prompts"
 import { copy } from "fs-extra"
-import { listFrameworks, type FrameworkId } from "@netlify/framework-info"
+import { listFrameworks,  } from "@netlify/framework-info"
+
+type FrameworkId = Awaited<ReturnType<typeof listFrameworks>>[0]['name']
 
 // @see https://stackoverflow.com/a/72462507
 const __filename = fileURLToPath(import.meta.url)
@@ -53,5 +55,5 @@ export async function guessPublicDirectory(): Promise<string> {
 
   const knownFramework = frameworks.find(framework => framework.id in commonPublicDirectories)
 
-  return knownFramework? commonPublicDirectories[knownFramework.id] : './public'
+  return knownFramework? commonPublicDirectories[knownFramework.id as keyof typeof commonPublicDirectories] : './public'
 }
