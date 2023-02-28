@@ -5,12 +5,12 @@ import { copyTemplate, runAsyncWithSpinner } from "./utils"
 
 type SetupMSWOptions =
   | {
-      apiType: "rest" | "graphql"
+      apiType: "rest" | "graphql" | "both"
       integrationType: "browser"
       publicDirectory: string
     }
   | {
-      apiType: "rest" | "graphql"
+      apiType: "rest" | "graphql" | "both"
       integrationType: "nodejs"
     }
 
