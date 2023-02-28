@@ -5,12 +5,12 @@ import { copyTemplate, isTsProject, runAsyncWithSpinner } from "./utils"
 
 type SetupMSWOptions =
   | {
-      apiType: "rest" | "graphql"
-      integrationType: "browser"
+      apiType: "rest" | "graphql" | "both"
+      integrationType: "browser" | "both"
       publicDirectory: string
     }
   | {
-      apiType: "rest" | "graphql"
+      apiType: "rest" | "graphql" | "both"
       integrationType: "nodejs"
     }
 
@@ -26,7 +26,7 @@ export async function setupMSW(options: SetupMSWOptions) {
   const generatedFileExtension = (await isTsProject()) ? ".ts" : ".js"
 
   await runAsyncWithSpinner(
-    `Generating ${pc.green(`mocks/handlers.${generatedFileExtension}`)}...`,
+    `Generating ${pc.green("mocks/handlers" + generatedFileExtension)}...`,
     async () => {
       await copyTemplate(
         options.apiType + "-handlers.js",
@@ -36,34 +36,61 @@ export async function setupMSW(options: SetupMSWOptions) {
   )
 
   // Run msw init
-  if (options.integrationType === "browser") {
+  if (
+    options.integrationType === "browser" ||
+    options.integrationType === "both"
+  ) {
     await runAsyncWithSpinner(
-      `Executing ${pc.cyan(`msw init`)}...`,
+      `Executing ${pc.cyan(`msw init ${options.publicDirectory} --save`)}...`,
       async () => {
         await execa("npx", ["msw", "init", options.publicDirectory, "--save"])
       },
     )
   }
 
-  // Cerate mocks/browser.js or mocks/server.js
+  // Cerate mocks/browser.js or/and mocks/server.js
 
-  const integrationFileName = {
-    browser: "browser",
-    nodejs: "server",
-  }[options.integrationType]
+  if (options.integrationType === "browser") {
+    await runAsyncWithSpinner(
+      `Generating ${pc.green("mocks/browser" + generatedFileExtension)}...`,
+      async () => {
+        await copyTemplate(
+          "browser.js",
+          path.join(mocksDirectoryPath, "browser" + generatedFileExtension),
+        )
+      },
+    )
+  }
 
-  await runAsyncWithSpinner(
-    `Generating ${pc.green(
-      "mocks/" + integrationFileName + generatedFileExtension,
-    )}...`,
-    async () => {
-      await copyTemplate(
-        integrationFileName + ".js",
-        path.join(
-          mocksDirectoryPath,
-          integrationFileName + generatedFileExtension,
-        ),
-      )
-    },
-  )
+  if (options.integrationType === "nodejs") {
+    await runAsyncWithSpinner(
+      `Generating ${pc.green("mocks/server" + generatedFileExtension)}...`,
+      async () => {
+        await copyTemplate(
+          "server.js",
+          path.join(mocksDirectoryPath, "server" + generatedFileExtension),
+        )
+      },
+    )
+  }
+
+  if (options.integrationType === "both") {
+    await runAsyncWithSpinner(
+      `Generating ${pc.green(
+        "mocks/browser" + generatedFileExtension,
+      )} and ${pc.green("mocks/server" + generatedFileExtension)}...`,
+      async () => {
+        await Promise.all([
+          copyTemplate(
+            "browser.js",
+            path.join(mocksDirectoryPath, "browser" + generatedFileExtension),
+          ),
+          copyTemplate(
+            "server.js",
+            path.join(mocksDirectoryPath, "server" + generatedFileExtension),
+          ),
+        ])
+      },
+    )
+  }
 }

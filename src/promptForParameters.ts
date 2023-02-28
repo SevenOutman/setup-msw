@@ -1,8 +1,11 @@
 import { isCancel, select, text } from "@clack/prompts"
+import { guessPublicDirectory } from "./utils"
 
 export async function promptForParameters() {
+  // There're not yet many options to select among so single-select is enough
+  // multi-select leads to additional keyboard actions
   const apiType = await select({
-    message: "What type of API would you like to mock?",
+    message: "What type(s) of API would you like to mock?",
     options: [
       {
         value: "rest",
@@ -11,6 +14,10 @@ export async function promptForParameters() {
       {
         value: "graphql",
         label: "GraphQL API",
+      },
+      {
+        value: "both",
+        label: "Both REST API and GraphQL API",
       },
     ],
   })
@@ -30,6 +37,10 @@ export async function promptForParameters() {
         value: "nodejs",
         label: "Node",
       },
+      {
+        value: "both",
+        label: "Both browser and Node.js",
+      },
     ],
   })
 
@@ -44,9 +55,11 @@ export async function promptForParameters() {
     }
   }
 
+  const guessedPublicDirectory = await guessPublicDirectory()
   const publicDirectory = await text({
     message: "Your public directory",
-    placeholder: "./public",
+    placeholder: guessedPublicDirectory,
+    defaultValue: guessedPublicDirectory,
   })
 
   if (isCancel(publicDirectory)) {
