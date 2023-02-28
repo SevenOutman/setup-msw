@@ -37,6 +37,10 @@ export async function promptForParameters() {
         value: "nodejs",
         label: "Node",
       },
+      {
+        value: "both",
+        label: "Both browser and Node.js",
+      },
     ],
   })
 
