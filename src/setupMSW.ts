@@ -5,12 +5,12 @@ import { copyTemplate, runAsyncWithSpinner } from "./utils"
 
 type SetupMSWOptions =
   | {
-      apiType: "rest" | "graphql"
-      integrationType: "browser"
+      apiType: "rest" | "graphql" | "both"
+      integrationType: "browser" | "both"
       publicDirectory: string
     }
   | {
-      apiType: "rest" | "graphql"
+      apiType: "rest" | "graphql" | "both"
       integrationType: "nodejs"
     }
 
@@ -44,20 +44,46 @@ export async function setupMSW(options: SetupMSWOptions) {
     )
   }
 
-  // Cerate mocks/browser.js or mocks/server.js
+  // Cerate mocks/browser.js or/and mocks/server.js
 
-  const integrationFileName = {
-    browser: "browser.js",
-    nodejs: "server.js",
-  }[options.integrationType]
+  if (options.integrationType === "browser") {
+    await runAsyncWithSpinner(
+      `Generating ${pc.green("mocks/browser.js")}...`,
+      async () => {
+        await copyTemplate(
+          "browser.js",
+          path.join(mocksDirectoryPath, "browser.js"),
+        )
+      },
+    )
+  }
 
-  await runAsyncWithSpinner(
-    `Generating ${pc.green("mocks/" + integrationFileName)}...`,
-    async () => {
-      await copyTemplate(
-        integrationFileName,
-        path.join(mocksDirectoryPath, integrationFileName),
-      )
-    },
-  )
+  if (options.integrationType === "nodejs") {
+    await runAsyncWithSpinner(
+      `Generating ${pc.green("mocks/server.js")}...`,
+      async () => {
+        await copyTemplate(
+          "server.js",
+          path.join(mocksDirectoryPath, "server.js"),
+        )
+      },
+    )
+  }
+
+  if (options.integrationType === "both") {
+    await runAsyncWithSpinner(
+      `Generating ${pc.green("mocks/browser.js")} and ${pc.green(
+        "mocks/server.js",
+      )}...`,
+      async () => {
+        await Promise.all([
+          copyTemplate(
+            "browser.js",
+            path.join(mocksDirectoryPath, "browser.js"),
+          ),
+          copyTemplate("server.js", path.join(mocksDirectoryPath, "server.js")),
+        ])
+      },
+    )
+  }
 }

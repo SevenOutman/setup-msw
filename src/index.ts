@@ -28,24 +28,25 @@ promptForParameters().then(
   async (parameters) => {
     await setupMSW(parameters)
 
-    outro(`Now add the following script into your ${
-      {
-        browser: "entry",
-        nodejs: "setting-up test",
-      }[parameters.integrationType]
-    } script then you're all set!
+    if (parameters.integrationType === "browser") {
+      outro(`Now add the following script into your entry script then you're all set!
   
-     ${
-       emphasize.highlight(
-         "javascript",
-         {
-           browser: startWorkerScript,
-           nodejs: setupTestsScript,
-         }[parameters.integrationType],
-       ).value
-     }
-  
-   Happy mocking!`)
+     ${emphasize.highlight("javascript", startWorkerScript).value}`)
+    } else if (parameters.integrationType === "nodejs") {
+      outro(`Now add the following script into your setting-up test script then you're all set!
+    
+     ${emphasize.highlight("javascript", setupTestsScript).value}`)
+    } else if (parameters.integrationType === "both") {
+      outro(`Now add the following script into your entry script,
+    
+     ${emphasize.highlight("javascript", startWorkerScript).value}
+
+   and add the following script into your setting-up test script then you're all set!
+    
+     ${emphasize.highlight("javascript", setupTestsScript).value}`)
+    }
+    console.log(`   Happy mocking!`)
+    console.log()
   },
   // User aborts
   () => {

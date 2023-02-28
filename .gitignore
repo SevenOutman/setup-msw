@@ -4,3 +4,4 @@ dist
 *.log
 fixture/src/mocks
 fixture/public/mockServiceWorker.js
+fixture/package-lock.json
