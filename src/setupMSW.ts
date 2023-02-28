@@ -35,9 +35,12 @@ export async function setupMSW(options: SetupMSWOptions) {
   )
 
   // Run msw init
-  if (options.integrationType === "browser") {
+  if (
+    options.integrationType === "browser" ||
+    options.integrationType === "both"
+  ) {
     await runAsyncWithSpinner(
-      `Executing ${pc.cyan(`msw init`)}...`,
+      `Executing ${pc.cyan(`msw init ${options.publicDirectory} --save`)}...`,
       async () => {
         await execa("npx", ["msw", "init", options.publicDirectory, "--save"])
       },

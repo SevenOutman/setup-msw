@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@clack/prompts': ^0.2.0
+  '@clack/prompts': ^0.4.5
   '@egoist/prettier-config': 1.0.0
   '@netlify/framework-info': ^9.8.3
   '@types/fs-extra': ^11.0.1
@@ -16,7 +16,7 @@ specifiers:
   vitest: 0.12.6
 
 dependencies:
-  '@clack/prompts': 0.2.0
+  '@clack/prompts': 0.4.5
   '@netlify/framework-info': 9.8.3
   emphasize: 6.0.0
   execa: 7.0.0
@@ -55,21 +55,22 @@ packages:
       js-tokens: 4.0.0
     dev: false
 
-  /@clack/core/0.1.2:
-    resolution: {integrity: sha512-NwVrhVMvX+QC4EoRwmBnkotzKzxM+Ppyi9tYKUf6N1WQd+ETIfwY/czVTZTOW4F8wbuqduHQHNjaSxTpp5DgMA==}
+  /@clack/core/0.1.9:
+    resolution: {integrity: sha512-2VaGLFQq54lGkpc48ZsPK8LzbQCbu5I+7zAFrvKM9PTCMI3Lzut+Q8LnflyRLeAsjqzvc5o258+nAoAiRWC0jA==}
     dependencies:
       picocolors: 1.0.0
       sisteransi: 1.0.5
     dev: false
 
-  /@clack/prompts/0.2.0:
-    resolution: {integrity: sha512-2/z+ggir05igkE1BWReiamGEWDi7oklR6/rURbaWhWTMHiJkqmMhza1eilAtMeg+ALnX16msDfK8IMVeW0LGTg==}
+  /@clack/prompts/0.4.5:
+    resolution: {integrity: sha512-TOuHKYSRWSUMJIDHSeF/JgPkR0avRipQTlr2CBsQkjw3BYInZN8UfI6vBFZhDu8svCrZGhGKaur5/hfw4x2yBw==}
     dependencies:
-      '@clack/core': 0.1.2
-      ansi-regex: 6.0.1
+      '@clack/core': 0.1.9
       picocolors: 1.0.0
       sisteransi: 1.0.5
     dev: false
+    bundledDependencies:
+      - is-unicode-supported
 
   /@egoist/prettier-config/1.0.0:
     resolution: {integrity: sha512-D1Tp9Jv4aVoEo3cOAO966gFCI0wx/1lZ6sEHX8uMAfyVxuxD2+knGxhfGlb/FNLxWV3ifSI5hOmB/zFfsi7Rzw==}
@@ -187,11 +188,6 @@ packages:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
       uri-js: 4.4.1
-    dev: false
-
-  /ansi-regex/6.0.1:
-    resolution: {integrity: sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==}
-    engines: {node: '>=12'}
     dev: false
 
   /ansi-styles/3.2.1:

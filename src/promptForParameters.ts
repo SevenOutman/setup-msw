@@ -55,9 +55,11 @@ export async function promptForParameters() {
     }
   }
 
+  const guessedPublicDirectory = await guessPublicDirectory()
   const publicDirectory = await text({
     message: "Your public directory",
-    placeholder: await guessPublicDirectory(),
+    placeholder: guessedPublicDirectory,
+    defaultValue: guessedPublicDirectory,
   })
 
   if (isCancel(publicDirectory)) {
