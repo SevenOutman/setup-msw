@@ -2,9 +2,9 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { spinner } from "@clack/prompts"
 import { copy } from "fs-extra"
-import { listFrameworks,  } from "@netlify/framework-info"
+import { listFrameworks } from "@netlify/framework-info"
 
-type FrameworkId = Awaited<ReturnType<typeof listFrameworks>>[0]['name']
+type FrameworkId = Awaited<ReturnType<typeof listFrameworks>>[0]["name"]
 
 // @see https://stackoverflow.com/a/72462507
 const __filename = fileURLToPath(import.meta.url)
@@ -33,7 +33,7 @@ export async function copyTemplate(
  * @see https://mswjs.io/docs/getting-started/integrate/browser#where-is-my-public-directory
  */
 const commonPublicDirectories = {
-  'create-react-app': "./public",
+  "create-react-app": "./public",
   gatsby: "./static",
   next: "./public",
   vue: "./public",
@@ -41,7 +41,7 @@ const commonPublicDirectories = {
   // preact: "./src/static",
   ember: "./public",
   svelte: "./public",
-  'svelte-kit': "./static",
+  "svelte-kit": "./static",
   vite: "./public",
 } satisfies {
   [id in FrameworkId]: string
@@ -53,7 +53,13 @@ const commonPublicDirectories = {
 export async function guessPublicDirectory(): Promise<string> {
   const frameworks = await listFrameworks()
 
-  const knownFramework = frameworks.find(framework => framework.id in commonPublicDirectories)
+  const knownFramework = frameworks.find(
+    (framework) => framework.id in commonPublicDirectories,
+  )
 
-  return knownFramework? commonPublicDirectories[knownFramework.id as keyof typeof commonPublicDirectories] : './public'
+  return knownFramework
+    ? commonPublicDirectories[
+        knownFramework.id as keyof typeof commonPublicDirectories
+      ]
+    : "./public"
 }
