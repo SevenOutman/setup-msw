@@ -2,6 +2,6 @@ node_modules
 .DS_Store
 dist
 *.log
-fixture/src/mocks
-fixture/public/mockServiceWorker.js
-fixture/package-lock.json
+fixtures/**/src/mocks
+fixture/**/mockServiceWorker.js
+fixtures/**/package-lock.json
