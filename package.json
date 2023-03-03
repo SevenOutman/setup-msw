@@ -14,6 +14,10 @@
     "scaffold",
     "quickstart"
   ],
+  "repository": "github:SevenOutman/setup-msw",
+  "bugs": {
+    "url": "https://github.com/SevenOutman/setup-msw/issues"
+  },
   "type": "module",
   "bin": "./dist/index.js",
   "main": "./dist/index.js",
