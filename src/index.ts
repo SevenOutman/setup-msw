@@ -5,6 +5,8 @@ import { emphasize } from "emphasize"
 import pc from "picocolors"
 import { setupMSW } from "./setupMSW"
 import { promptForParameters } from "./promptForParameters"
+import { commonOutro } from "./utils"
+import { checkExistingMSW } from "./checkExistingMSW"
 
 const startWorkerScript = `if (process.env.NODE_ENV === 'development') {
        const { worker } = require('./mocks/browser')
@@ -25,12 +27,13 @@ intro(
   )} helps you add MSW into your app`,
 )
 
-promptForParameters().then(
-  async (parameters) => {
-    await setupMSW(parameters)
+checkExistingMSW().then(() => {
+  promptForParameters().then(
+    async (parameters) => {
+      await setupMSW(parameters)
 
-    if (parameters.integrationType === "browser") {
-      outro(`Now add the following script into your entry script then you're all set!
+      if (parameters.integrationType === "browser") {
+        outro(`Now add the following script into your entry script then you're all set!
   
      ${emphasize.highlight("javascript", startWorkerScript).value}
      
@@ -40,12 +43,12 @@ ${boxen(pc.red("[MSW] Mocking enabled"), {
   padding: 1,
   margin: { left: 3, top: 0, right: 3, bottom: 0 },
 })}`)
-    } else if (parameters.integrationType === "nodejs") {
-      outro(`Now add the following script into your setting-up test script then you're all set!
+      } else if (parameters.integrationType === "nodejs") {
+        outro(`Now add the following script into your setting-up test script then you're all set!
     
      ${emphasize.highlight("javascript", setupTestsScript).value}`)
-    } else if (parameters.integrationType === "both") {
-      outro(`Now add the following script into your entry script,
+      } else if (parameters.integrationType === "both") {
+        outro(`Now add the following script into your entry script,
     
      ${emphasize.highlight("javascript", startWorkerScript).value}
 
@@ -59,16 +62,13 @@ ${boxen(pc.red("[MSW] Mocking enabled"), {
   padding: 1,
   margin: { left: 3, top: 0, right: 3, bottom: 0 },
 })}`)
-    }
-    console.log(`   Happy mocking!`)
-    console.log()
-  },
-  // User aborts
-  () => {
-    outro(
-      `You can setup msw yourself following the official guide at:
-   ${pc.cyan("https://mswjs.io/docs/getting-started")}
-`,
-    )
-  },
-)
+      }
+      console.log(`   Happy mocking!`)
+      console.log()
+    },
+    // User aborts
+    () => {
+      commonOutro()
+    },
+  )
+})

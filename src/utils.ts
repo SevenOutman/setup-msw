@@ -1,8 +1,10 @@
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import { spinner } from "@clack/prompts"
+import { outro, spinner } from "@clack/prompts"
 import { copy, exists } from "fs-extra"
 import { listFrameworks } from "@netlify/framework-info"
+import rpj from "read-package-json-fast"
+import pc from "picocolors"
 
 type FrameworkId = Awaited<ReturnType<typeof listFrameworks>>[0]["name"]
 
@@ -66,4 +68,18 @@ export async function guessPublicDirectory(): Promise<string> {
         knownFramework.id as keyof typeof commonPublicDirectories
       ]
     : "./public"
+}
+
+export async function hasDevDependency(depName: string) {
+  const packageJson = await rpj(path.join(process.cwd(), "package.json"))
+
+  return !!packageJson.devDependencies?.[depName]
+}
+
+export function commonOutro() {
+  return outro(
+    `You can setup msw yourself following the official guide at:
+   ${pc.cyan("https://mswjs.io/docs/getting-started")}
+`,
+  )
 }

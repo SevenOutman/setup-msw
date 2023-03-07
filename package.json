@@ -51,7 +51,9 @@
     "emphasize": "^6.0.0",
     "execa": "^7.0.0",
     "fs-extra": "^11.1.0",
-    "picocolors": "^1.0.0"
+    "picocolors": "^1.0.0",
+    "read-package-json-fast": "^3.0.2",
+    "types-package-json": "^2.0.39"
   },
   "release": {
     "branches": [
