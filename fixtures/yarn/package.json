@@ -1,0 +1,7 @@
+{
+  "name": "yarn",
+  "packageManager": "yarn@3.5.0",
+  "dependencies": {
+    "none": "^1.0.0"
+  }
+}

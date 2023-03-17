@@ -2,6 +2,7 @@ import path from "node:path"
 import { execa } from "execa"
 import pc from "picocolors"
 import { copyTemplate, isTsProject, runAsyncWithSpinner } from "./utils"
+import { installMSW } from "./installMSW"
 
 type SetupMSWOptions =
   | {
@@ -18,9 +19,7 @@ const mocksDirectoryPath = path.join(process.cwd(), "src/mocks")
 
 export async function setupMSW(options: SetupMSWOptions) {
   // Install msw
-  await runAsyncWithSpinner(`Installing ${pc.cyan(`msw`)}...`, async () => {
-    await execa("npm", ["install", "--save-dev", "msw"])
-  })
+  await installMSW()
 
   // Create mocks/handlers.js
   const generatedFileExtension = (await isTsProject()) ? ".ts" : ".js"

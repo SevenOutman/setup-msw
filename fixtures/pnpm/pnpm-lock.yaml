@@ -1,0 +1,13 @@
+lockfileVersion: 5.4
+
+specifiers:
+  none: ^1.0.0
+
+dependencies:
+  none: 1.0.0
+
+packages:
+
+  /none/1.0.0:
+    resolution: {integrity: sha512-i7zGuWTL3GPeD6N6qm8dP7dpxI6Tj/NXACKZh1j2b/P0/h3Drv5r074gyAwuENJ0A7H9JJb0ic2spGbliXhMdA==}
+    dev: false
